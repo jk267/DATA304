@@ -4,62 +4,7 @@ format: html
 editor: visual
 ---
 
-## Challenge: Create graphics to compare gas prices in $ per gallon. Take advantage of the countries/regions/codes data to do things like use 3-letter codes for countries, group them by region, etc.
-```{python}
-import pandas as pd
-import altair as alt
-
-# data
-gapminder_url = "https://calvin-data304.netlify.app/data/pump_price_for_gasoline_us_per_liter.csv"
-c_r_c = "https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv" 
-
-data = pd.read_csv(gapminder_url)
-dataw = pd.read_csv(c_r_c)
-
-# Print column names of both dataframes
-print("Columns of data dataframe:", data.columns)
-print("Columns of dataw dataframe:", dataw.columns)
-
-
-
-try:
-    left_merged = pd.merge(data, dataw, how="left", left_on="country", right_on="name")
-    left_merged.drop(columns=['name'], inplace=True)
-    print(left_merged.head())
-except KeyError as e:
-    print("KeyError:", e)
-```
-
-```{python}
-group = left_merged.groupby('sub-region').mean(numeric_only=True).reset_index()
-# Specify the columns to drop
-columns_to_drop = ["country-code", "sub-region-code", "region-code", "intermediate-region-code"]
-
-# Assuming the years are represented as string columns like '1991', '1992', ..., '2015'
-melted_df = pd.melt(left_merged, id_vars=['sub-region'], value_vars=[str(year) for year in range(1991, 2016)], var_name='year', value_name='gasoline_price')
-```
-
-```{python}
-```
-
-
-```{python}
-chart = alt.Chart(melted_df).mark_line().encode(
-    x='year:N',  # Assuming 'year' is a nominal variable (categorical)
-    y='gasoline_price:Q',  # Assuming 'gasoline_price' is a quantitative variable
-    color='sub-region:N',  # Assuming 'sub-region' is a nominal variable (categorical)
-    tooltip=['sub-region:N', 'year:N', 'gasoline_price:Q']  # Optional: Add tooltip
-).properties(
-    width=600,
-    height=400,
-    title='Gasoline Prices by Sub-Region (1991-2015)'
-)
-
-chart
-
-```
-
-## investigate:
+## Challenge: investigate:
 
 Challenge: Investigate
 
