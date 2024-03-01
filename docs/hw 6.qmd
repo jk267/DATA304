@@ -3,7 +3,7 @@ title: "DATA304-hw5-Portfolio"
 author: "David Kim"
 format: html
 editor: visual
-echo : FALSE
+echo : True
 ---
 
 ```{python}
@@ -324,3 +324,26 @@ airport_map= state_map.transform_lookup(
 airport_map
 
 ```
+### Question 3 
+
+What is the main story of this graphic?
+
+Just as it is written in the title, the graphic shows that Padel clubs generate more than half of the padel market revenue. 
+
+What makes it a good graphic?
+
+The title tells the story of the graphic rather than just comparing the data such as “padel market revenue.”
+Following the title, the graphic is easy to read: since the padel club's revenue box clearly is more than half of the entire box, we can easily read what the graphic is trying to convey without deep analysis.
+Since the data is hierarchically represented by nested rectangles, it is easy to read the overall composition and the hierarchy within the data without extra guide.
+
+What features do you think you would know how to implement in Vega-lite?
+
+I looked up treemaps in vegalite documentation, but I don’t think I can implement one with the things we’ve learned so far
+
+Are there any features of the graphic that you would not know how to do in Vega-lite? If so, list them.
+
+1.  making treemap
+
+2. putting images in the center of each box
+
+3. using two titles, one for the main and one for the sub. 

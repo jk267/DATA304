@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -70,29 +104,58 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.request <span class="im">import</span> urlopen</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> vega_datasets <span class="im">import</span> data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="percent-of-men-and-women-in-various-occupations-1950-and-2000." class="level2">
 <h2 class="anchored" data-anchor-id="percent-of-men-and-women-in-various-occupations-1950-and-2000.">Percent of men and women in various occupations 1950 and 2000.</h2>
 <div class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (graphic 1)Percent of men and women in various occupations 1950 and 2000.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#load data</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>jobs_url2 <span class="op">=</span> <span class="st">"https://cdn.jsdelivr.net/npm/vega-datasets@2.8.0/data/jobs.json"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>jobs2 <span class="op">=</span> pd.read_json(jobs_url2)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable JSON data transformer for handling larger datasets</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.enable(<span class="st">'json'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>alt.Chart(jobs2).transform_pivot(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'year'</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    value<span class="op">=</span><span class="st">'perc'</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    groupby <span class="op">=</span> [<span class="st">"job"</span>, <span class="st">"sex"</span>]).mark_point(filled<span class="op">=</span><span class="va">True</span>).encode(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>alt.X(<span class="st">'1950:Q'</span>, scale<span class="op">=</span>alt.Scale(<span class="bu">type</span><span class="op">=</span><span class="st">'symlog'</span>,constant <span class="op">=</span> <span class="fl">0.0001</span>)),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'2000:Q'</span>, scale<span class="op">=</span>alt.Scale(<span class="bu">type</span><span class="op">=</span><span class="st">'symlog'</span>, constant <span class="op">=</span> <span class="fl">0.0001</span>)),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span>[<span class="st">'job'</span>, <span class="st">'sex'</span>],</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    column <span class="op">=</span> <span class="st">'sex:N'</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>).properties(</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">150</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">150</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>).interactive()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
 
 <style>
-  #altair-viz-f682b792e70f4420b09e04dee98cba6b.vega-embed {
+  #altair-viz-d9109829fa544a1693632fd4484ec1d6.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-f682b792e70f4420b09e04dee98cba6b.vega-embed details,
-  #altair-viz-f682b792e70f4420b09e04dee98cba6b.vega-embed details summary {
+  #altair-viz-d9109829fa544a1693632fd4484ec1d6.vega-embed details,
+  #altair-viz-d9109829fa544a1693632fd4484ec1d6.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-f682b792e70f4420b09e04dee98cba6b"></div>
+<div id="altair-viz-d9109829fa544a1693632fd4484ec1d6"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-f682b792e70f4420b09e04dee98cba6b") {
-      outputDiv = document.getElementById("altair-viz-f682b792e70f4420b09e04dee98cba6b");
+    if (outputDiv.id !== "altair-viz-d9109829fa544a1693632fd4484ec1d6") {
+      outputDiv = document.getElementById("altair-viz-d9109829fa544a1693632fd4484ec1d6");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -138,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"url": "altair-data-ac16e648372efb4e869f61bb9ce13513.json", "format": {"type": "json"}}, "mark": {"type": "point", "filled": true}, "encoding": {"column": {"field": "sex", "type": "nominal"}, "tooltip": [{"field": "job", "type": "nominal"}, {"field": "sex", "type": "nominal"}], "x": {"field": "1950", "scale": {"constant": 0.0001, "type": "symlog"}, "type": "quantitative"}, "y": {"field": "2000", "scale": {"constant": 0.0001, "type": "symlog"}, "type": "quantitative"}}, "height": 150, "params": [{"name": "param_13", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "transform": [{"pivot": "year", "value": "perc", "groupby": ["job", "sex"]}], "width": 150, "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json"}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"url": "altair-data-ac16e648372efb4e869f61bb9ce13513.json", "format": {"type": "json"}}, "mark": {"type": "point", "filled": true}, "encoding": {"column": {"field": "sex", "type": "nominal"}, "tooltip": [{"field": "job", "type": "nominal"}, {"field": "sex", "type": "nominal"}], "x": {"field": "1950", "scale": {"constant": 0.0001, "type": "symlog"}, "type": "quantitative"}, "y": {"field": "2000", "scale": {"constant": 0.0001, "type": "symlog"}, "type": "quantitative"}}, "height": 150, "params": [{"name": "param_4", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "transform": [{"pivot": "year", "value": "perc", "groupby": ["job", "sex"]}], "width": 150, "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json"}, {"mode": "vega-lite"});
 </script>
 </div>
 </div>
@@ -146,26 +209,49 @@ ul.task-list li input[type="checkbox"] {
 <section id="percent-of-men-and-women-in-farmer-and-professor-occupations-over-time." class="level2">
 <h2 class="anchored" data-anchor-id="percent-of-men-and-women-in-farmer-and-professor-occupations-over-time.">Percent of men and women in farmer and professor occupations over time.</h2>
 <div class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Percent of men and women in farmer and professor occupations over time.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data directly from URL</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>jobs_url <span class="op">=</span> <span class="st">"https://cdn.jsdelivr.net/npm/vega-datasets@2.8.0/data/jobs.json"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>jobs <span class="op">=</span> pd.read_json(jobs_url)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable JSON data transformer for handling larger datasets</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.enable(<span class="st">'json'</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the chart</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>chart <span class="op">=</span> alt.Chart(jobs).transform_filter(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    (alt.datum.job <span class="op">==</span> <span class="st">"Farmer"</span>) <span class="op">|</span> (alt.datum.job <span class="op">==</span> <span class="st">"Professor"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>).mark_line(point<span class="op">=</span><span class="va">True</span>).encode(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'year:N'</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'perc:Q'</span> ,scale<span class="op">=</span>alt.Scale(<span class="bu">type</span><span class="op">=</span><span class="st">'symlog'</span>, constant <span class="op">=</span> <span class="fl">0.0001</span>)),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>alt.Color(<span class="st">'job:N'</span>, title<span class="op">=</span><span class="st">"Job"</span>),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> <span class="st">'sex:N'</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>).interactive()</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>chart.properties(</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Gender Disparities in Farmer and Professor Occupations Over Time"</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">100</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
 
 <style>
-  #altair-viz-2a95817439d341b080cf211e8f9acefc.vega-embed {
+  #altair-viz-11633623ff8d4bb892cb66f8d5f69acc.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-2a95817439d341b080cf211e8f9acefc.vega-embed details,
-  #altair-viz-2a95817439d341b080cf211e8f9acefc.vega-embed details summary {
+  #altair-viz-11633623ff8d4bb892cb66f8d5f69acc.vega-embed details,
+  #altair-viz-11633623ff8d4bb892cb66f8d5f69acc.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-2a95817439d341b080cf211e8f9acefc"></div>
+<div id="altair-viz-11633623ff8d4bb892cb66f8d5f69acc"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-2a95817439d341b080cf211e8f9acefc") {
-      outputDiv = document.getElementById("altair-viz-2a95817439d341b080cf211e8f9acefc");
+    if (outputDiv.id !== "altair-viz-11633623ff8d4bb892cb66f8d5f69acc") {
+      outputDiv = document.getElementById("altair-viz-11633623ff8d4bb892cb66f8d5f69acc");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -211,7 +297,7 @@ ul.task-list li input[type="checkbox"] {
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"url": "altair-data-ac16e648372efb4e869f61bb9ce13513.json", "format": {"type": "json"}}, "mark": {"type": "line", "point": true}, "encoding": {"color": {"field": "job", "title": "Job", "type": "nominal"}, "row": {"field": "sex", "type": "nominal"}, "x": {"field": "year", "type": "nominal"}, "y": {"field": "perc", "scale": {"constant": 0.0001, "type": "symlog"}, "type": "quantitative"}}, "height": 100, "params": [{"name": "param_14", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Gender Disparities in Farmer and Professor Occupations Over Time", "transform": [{"filter": "((datum.job === 'Farmer') || (datum.job === 'Professor'))"}], "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json"}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"url": "altair-data-ac16e648372efb4e869f61bb9ce13513.json", "format": {"type": "json"}}, "mark": {"type": "line", "point": true}, "encoding": {"color": {"field": "job", "title": "Job", "type": "nominal"}, "row": {"field": "sex", "type": "nominal"}, "x": {"field": "year", "type": "nominal"}, "y": {"field": "perc", "scale": {"constant": 0.0001, "type": "symlog"}, "type": "quantitative"}}, "height": 100, "params": [{"name": "param_5", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "title": "Gender Disparities in Farmer and Professor Occupations Over Time", "transform": [{"filter": "((datum.job === 'Farmer') || (datum.job === 'Professor'))"}], "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json"}, {"mode": "vega-lite"});
 </script>
 </div>
 </div>
@@ -219,26 +305,49 @@ ul.task-list li input[type="checkbox"] {
 <section id="number-of-women-bakers-exceeds-men-bakers-since-1950" class="level2">
 <h2 class="anchored" data-anchor-id="number-of-women-bakers-exceeds-men-bakers-since-1950">Number of women bakers exceeds men bakers since 1950</h2>
 <div class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data directly from URL</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>jobs_url3 <span class="op">=</span> <span class="st">"https://cdn.jsdelivr.net/npm/vega-datasets@2.8.0/data/jobs.json"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>jobs3 <span class="op">=</span> pd.read_json(jobs_url3)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#print(jobs[0:4])</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable JSON data transformer for handling larger datasets</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.enable(<span class="st">'json'</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the chart</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>chart <span class="op">=</span> alt.Chart(jobs).transform_filter(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    (alt.datum.job <span class="op">==</span> <span class="st">"Baker"</span>) </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>).mark_line(point<span class="op">=</span><span class="va">True</span>).encode(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'year:N'</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>alt.Y(<span class="st">'count:Q'</span> ,scale<span class="op">=</span>alt.Scale(<span class="bu">type</span><span class="op">=</span><span class="st">'linear'</span>)),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>alt.Color(<span class="st">'sex:N'</span>, title<span class="op">=</span><span class="st">"sex"</span>),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>).interactive()</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>chart.properties(</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">600</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">100</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
 
 <style>
-  #altair-viz-42accfa705a44327a9fdaf56ddc63b48.vega-embed {
+  #altair-viz-2a9df87b5a72453ab6da1871d7f4210d.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-42accfa705a44327a9fdaf56ddc63b48.vega-embed details,
-  #altair-viz-42accfa705a44327a9fdaf56ddc63b48.vega-embed details summary {
+  #altair-viz-2a9df87b5a72453ab6da1871d7f4210d.vega-embed details,
+  #altair-viz-2a9df87b5a72453ab6da1871d7f4210d.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-42accfa705a44327a9fdaf56ddc63b48"></div>
+<div id="altair-viz-2a9df87b5a72453ab6da1871d7f4210d"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-42accfa705a44327a9fdaf56ddc63b48") {
-      outputDiv = document.getElementById("altair-viz-42accfa705a44327a9fdaf56ddc63b48");
+    if (outputDiv.id !== "altair-viz-2a9df87b5a72453ab6da1871d7f4210d") {
+      outputDiv = document.getElementById("altair-viz-2a9df87b5a72453ab6da1871d7f4210d");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -284,51 +393,137 @@ ul.task-list li input[type="checkbox"] {
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"url": "altair-data-ac16e648372efb4e869f61bb9ce13513.json", "format": {"type": "json"}}, "mark": {"type": "line", "point": true}, "encoding": {"color": {"field": "sex", "title": "sex", "type": "nominal"}, "x": {"field": "year", "type": "nominal"}, "y": {"field": "count", "scale": {"type": "linear"}, "type": "quantitative"}}, "height": 100, "params": [{"name": "param_15", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "transform": [{"filter": "(datum.job === 'Baker')"}], "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json"}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"url": "altair-data-ac16e648372efb4e869f61bb9ce13513.json", "format": {"type": "json"}}, "mark": {"type": "line", "point": true}, "encoding": {"color": {"field": "sex", "title": "sex", "type": "nominal"}, "x": {"field": "year", "type": "nominal"}, "y": {"field": "count", "scale": {"type": "linear"}, "type": "quantitative"}}, "height": 100, "params": [{"name": "param_6", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "transform": [{"filter": "(datum.job === 'Baker')"}], "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json"}, {"mode": "vega-lite"});
 </script>
 </div>
 </div>
 <div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load data </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>world2_url <span class="op">=</span> <span class="st">'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>aux_dat <span class="op">=</span> <span class="st">'https://cdn.jsdelivr.net/npm/vega-datasets@1.29.0/data/gapminder.json'</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>aux_co <span class="op">=</span> <span class="st">'https://cdn.jsdelivr.net/npm/vega-datasets@1.29.0/data/gapminder-health-income.csv'</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>world2 <span class="op">=</span> json.load(urlopen(world2_url))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>auxdata <span class="op">=</span> json.load(urlopen(aux_dat))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(world2))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(world2.keys())</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>world <span class="op">=</span> alt.topo_feature(world2_url, feature<span class="op">=</span><span class="st">'countries'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'dict'&gt;
 dict_keys(['type', 'objects', 'arcs', 'bbox', 'transform'])</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>country_names <span class="op">=</span> [ p[<span class="st">'properties'</span>][<span class="st">'name'</span>] </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> p <span class="kw">in</span> world2[<span class="st">'objects'</span>][<span class="st">'countries'</span>][<span class="st">'geometries'</span>] ]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(country_names[<span class="dv">0</span>:<span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['Fiji', 'Tanzania', 'W. Sahara', 'Canada', 'United States of America']</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#gapminder = pd.read_json(data.gapminder.url)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="op">=</span> pd.read_csv(aux_co)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>common_names <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(country_names) <span class="op">&amp;</span> <span class="bu">set</span>(gapminder[<span class="st">'country'</span>]))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>missing_names <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(gapminder[<span class="st">'country'</span>]) <span class="op">-</span> <span class="bu">set</span>(country_names))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>extra_names <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(country_names) <span class="op">-</span> <span class="bu">set</span>(gapminder[<span class="st">'country'</span>]))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># names in gapminder and in map data</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#print("in common:", len(common_names), common_names)     </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># names in gapminder but not in map data</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"missing in map:"</span>, <span class="bu">len</span>(missing_names), missing_names)    </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># names in the map data but not in gapminder</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"extra in map"</span>, <span class="bu">len</span>(extra_names), extra_names)      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>missing in map: 38 ['St. Vincent and the Grenadines', 'West Bank and Gaza', 'Seychelles', 'Samoa', 'Macedonia, FYR', 'Antigua and Barbuda', 'United States', 'Maldives', 'Dominican Republic', 'Micronesia, Fed. Sts.', 'Cape Verde', 'Mauritius', 'Czech Republic', 'St. Lucia', 'Marshall Islands', 'Bosnia and Herzegovina', 'South Sudan', "Cote d'Ivoire", 'Malta', 'Kyrgyz Republic', 'Tonga', 'Swaziland', 'Solomon Islands', 'Dominica', 'Kiribati', 'Central African Republic', 'Lao', 'Sao Tome and Principe', 'Singapore', 'Congo, Dem. Rep.', 'Comoros', 'Bahrain', 'Congo, Rep.', 'Equatorial Guinea', 'Grenada', 'Slovak Republic', 'Andorra', 'Barbados']
-extra in map 28 ['Palestine', 'Antarctica', 'Congo', 'Taiwan', 'eSwatini', 'Dem. Rep. Congo', 'Bosnia and Herz.', 'Kyrgyzstan', 'Eq. Guinea', 'S. Sudan', 'Falkland Is.', 'United States of America', 'Macedonia', 'Somaliland', 'Fr. S. Antarctic Lands', 'New Caledonia', 'Solomon Is.', 'Kosovo', 'Central African Rep.', 'W. Sahara', 'Puerto Rico', "Côte d'Ivoire", 'Greenland', 'Czechia', 'Dominican Rep.', 'Slovakia', 'Laos', 'N. Cyprus']</code></pre>
+<pre><code>missing in map: 38 ['Slovak Republic', 'Malta', 'Bosnia and Herzegovina', 'Samoa', 'Czech Republic', 'Andorra', 'Tonga', 'St. Vincent and the Grenadines', 'Marshall Islands', 'Solomon Islands', 'Maldives', "Cote d'Ivoire", 'Macedonia, FYR', 'Seychelles', 'Dominican Republic', 'Barbados', 'Bahrain', 'United States', 'Singapore', 'Dominica', 'Mauritius', 'Sao Tome and Principe', 'Congo, Rep.', 'Micronesia, Fed. Sts.', 'West Bank and Gaza', 'Kyrgyz Republic', 'South Sudan', 'Kiribati', 'Cape Verde', 'St. Lucia', 'Antigua and Barbuda', 'Comoros', 'Central African Republic', 'Congo, Dem. Rep.', 'Equatorial Guinea', 'Lao', 'Swaziland', 'Grenada']
+extra in map 28 ['Laos', 'Central African Rep.', 'Puerto Rico', 'Bosnia and Herz.', 'United States of America', 'Antarctica', 'Fr. S. Antarctic Lands', 'Czechia', 'W. Sahara', 'New Caledonia', 'Dem. Rep. Congo', 'Macedonia', 'Congo', 'Slovakia', 'Solomon Is.', 'N. Cyprus', 'Dominican Rep.', "Côte d'Ivoire", 'eSwatini', 'Greenland', 'Taiwan', 'Kyrgyzstan', 'Palestine', 'Somaliland', 'S. Sudan', 'Kosovo', 'Eq. Guinea', 'Falkland Is.']</code></pre>
 </div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Existing mapping dictionary</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>flipped_mapping_dict <span class="op">=</span> {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Bosnia and Herz.'</span>: <span class="st">'Bosnia and Herzegovina'</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Maldives'</span>: <span class="st">'Maldives'</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'United States of America'</span>: <span class="st">'United States'</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Dem. Rep. Congo'</span>: <span class="st">'Congo, Dem. Rep.'</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Laos'</span>: <span class="st">'Lao'</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Central African Rep.'</span>: <span class="st">'Central African Republic'</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Congo'</span>: <span class="st">'Congo, Rep.'</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Czechia'</span>: <span class="st">'Czech Republic'</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'S. Sudan'</span>: <span class="st">'South Sudan'</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Eq. Guinea'</span>: <span class="st">'Equatorial Guinea'</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Kiribati'</span>: <span class="st">'Kiribati'</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Sao Tome and Principe'</span>: <span class="st">'Sao Tome and Principe'</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Solomon Is.'</span>: <span class="st">'Solomon Islands'</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Côte d'Ivoire"</span>: <span class="st">"Cote d'Ivoire"</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Macedonia'</span>: <span class="st">'Macedonia, FYR'</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Micronesia, Fed. Sts.'</span>: <span class="st">'Micronesia, Fed. Sts.'</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'eSwatini'</span>: <span class="st">'Swaziland'</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Slovakia'</span>: <span class="st">'Slovak Republic'</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Swaziland'</span>: <span class="st">'eSwatini'</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Solomon Islands'</span>: <span class="st">'Solomon Is.'</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Equatorial Guinea'</span>: <span class="st">'Eq. Guinea'</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Macedonia, FYR'</span>: <span class="st">'Macedonia'</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Fr. S. Antarctic Lands'</span>: <span class="st">'Fr. S. Antarctic Lands'</span>,</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Czech Republic'</span>: <span class="st">'Czechia'</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Somaliland'</span>: <span class="st">'Somaliland'</span>,</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Slovak Republic'</span>: <span class="st">'Slovakia'</span>,</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Antarctica'</span>: <span class="st">'Antarctica'</span>,</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Falkland Islands'</span>: <span class="st">'Falkland Is.'</span>,</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Central African Republic'</span>: <span class="st">'Central African Rep.'</span>,</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">'South Sudan'</span>: <span class="st">'S. Sudan'</span>,</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">'United States'</span>: <span class="st">'United States of America'</span>,</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Kyrgyzstan'</span>: <span class="st">'Kyrgyzstan'</span>,</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Bosnia and Herzegovina'</span>: <span class="st">'Bosnia and Herz.'</span>,</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Dominican Republic'</span>: <span class="st">'Dominican Rep.'</span>,</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Congo, Dem. Rep.'</span>: <span class="st">'Dem. Rep. Congo'</span>,</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cote d'Ivoire"</span>: <span class="st">"Côte d'Ivoire"</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>gapminder[<span class="st">'country'</span>] <span class="op">=</span> gapminder[<span class="st">'country'</span>].replace(flipped_mapping_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="choropleth-map-of-the-world-based-on-income" class="level2">
 <h2 class="anchored" data-anchor-id="choropleth-map-of-the-world-based-on-income">Choropleth map of the World based on income</h2>
 <div class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>world <span class="op">=</span> alt.topo_feature(world2_url, feature<span class="op">=</span><span class="st">'countries'</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>world_map <span class="op">=</span> alt.Chart(world).mark_geoshape().encode(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    tooltip <span class="op">=</span> [<span class="st">"income:Q"</span>, <span class="st">"properties.name:N"</span>]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>world_2<span class="op">=</span> world_map.transform_lookup(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  lookup<span class="op">=</span><span class="st">'properties.name'</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  from_<span class="op">=</span>alt.LookupData(gapminder, <span class="st">'country'</span>, [<span class="st">'income'</span>])</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  ).encode(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    fill <span class="op">=</span> <span class="st">"income:Q"</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    stroke <span class="op">=</span> <span class="st">"income:Q"</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    ).properties(width <span class="op">=</span> <span class="dv">600</span>, height <span class="op">=</span> <span class="dv">400</span>).project(</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">type</span><span class="op">=</span><span class="st">'equalEarth'</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>world_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
 
 <style>
-  #altair-viz-968f2192f9c648808badd8440dba1cdf.vega-embed {
+  #altair-viz-b0ae27c9fc664ba5af90b357b7af079a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-968f2192f9c648808badd8440dba1cdf.vega-embed details,
-  #altair-viz-968f2192f9c648808badd8440dba1cdf.vega-embed details summary {
+  #altair-viz-b0ae27c9fc664ba5af90b357b7af079a.vega-embed details,
+  #altair-viz-b0ae27c9fc664ba5af90b357b7af079a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-968f2192f9c648808badd8440dba1cdf"></div>
+<div id="altair-viz-b0ae27c9fc664ba5af90b357b7af079a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-968f2192f9c648808badd8440dba1cdf") {
-      outputDiv = document.getElementById("altair-viz-968f2192f9c648808badd8440dba1cdf");
+    if (outputDiv.id !== "altair-viz-b0ae27c9fc664ba5af90b357b7af079a") {
+      outputDiv = document.getElementById("altair-viz-b0ae27c9fc664ba5af90b357b7af079a");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -382,26 +577,40 @@ extra in map 28 ['Palestine', 'Antarctica', 'Congo', 'Taiwan', 'eSwatini', 'Dem.
 <section id="united-states-state-map" class="level2">
 <h2 class="anchored" data-anchor-id="united-states-state-map">United States state map</h2>
 <div class="cell" data-execution_count="10">
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>us_url <span class="op">=</span> <span class="st">"https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>airport_url <span class="op">=</span> <span class="st">"https://cdn.jsdelivr.net/npm/vega-datasets@1.29.0/data/airports.csv"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>read_url <span class="op">=</span> json.load(urlopen(us_url))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>airport <span class="op">=</span> pd.read_csv(airport_url)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> alt.topo_feature(us_url, feature <span class="op">=</span> <span class="st">'states'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>state_map <span class="op">=</span> alt.Chart(states).mark_geoshape(</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    fill <span class="op">=</span> <span class="st">'transparent'</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    stroke <span class="op">=</span> <span class="st">'steelblue'</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>).encode(tooltip <span class="op">=</span> [<span class="st">"properties.name:N"</span>,<span class="st">"airport_count:Q"</span>]).project(<span class="st">'albersUsa'</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>state_map.properties(width <span class="op">=</span> <span class="dv">500</span>, height <span class="op">=</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
 
 <style>
-  #altair-viz-f57664401e894f20b214c038d4bbb9ac.vega-embed {
+  #altair-viz-0bb1b471822a445b82b50591de211935.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-f57664401e894f20b214c038d4bbb9ac.vega-embed details,
-  #altair-viz-f57664401e894f20b214c038d4bbb9ac.vega-embed details summary {
+  #altair-viz-0bb1b471822a445b82b50591de211935.vega-embed details,
+  #altair-viz-0bb1b471822a445b82b50591de211935.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-f57664401e894f20b214c038d4bbb9ac"></div>
+<div id="altair-viz-0bb1b471822a445b82b50591de211935"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-f57664401e894f20b214c038d4bbb9ac") {
-      outputDiv = document.getElementById("altair-viz-f57664401e894f20b214c038d4bbb9ac");
+    if (outputDiv.id !== "altair-viz-0bb1b471822a445b82b50591de211935") {
+      outputDiv = document.getElementById("altair-viz-0bb1b471822a445b82b50591de211935");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -454,13 +663,91 @@ extra in map 28 ['Palestine', 'Antarctica', 'Congo', 'Taiwan', 'eSwatini', 'Dem.
 <section id="check-if-the-state-name-in-map-datast-matches-the-state-name-in-auxiliary-data." class="level4">
 <h4 class="anchored" data-anchor-id="check-if-the-state-name-in-map-datast-matches-the-state-name-in-auxiliary-data.">Check if the state name in map datast matches the state name in auxiliary data.</h4>
 <div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>state_names <span class="op">=</span> [ p[<span class="st">'properties'</span>][<span class="st">'name'</span>] </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> p <span class="kw">in</span> read_url[<span class="st">'objects'</span>][<span class="st">'states'</span>][<span class="st">'geometries'</span>] ]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(state_names[<span class="dv">0</span>:<span class="dv">5</span>])</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>common_names2 <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(state_names) <span class="op">&amp;</span> <span class="bu">set</span>(airport[<span class="st">'state'</span>]))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>missing_names2 <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(airport[<span class="st">'state'</span>]) <span class="op">-</span> <span class="bu">set</span>(state_names))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>extra_names2 <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(state_names) <span class="op">-</span> <span class="bu">set</span>(airport[<span class="st">'state'</span>]))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># names in gapminder and in map data</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"in common:"</span>, <span class="bu">len</span>(common_names2), common_names2)     </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># names in gapminder but not in map data</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"missing state in map:"</span>, <span class="bu">len</span>(missing_names2), missing_names2)    </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co"># names in the map data but not in gapminder</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"extra state in map"</span>, <span class="bu">len</span>(extra_names2), extra_names2)  </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>state_dict <span class="op">=</span> {</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'KY'</span>: <span class="st">'Kentucky'</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NE'</span>: <span class="st">'Nebraska'</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OH'</span>: <span class="st">'Ohio'</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ND'</span>: <span class="st">'North Dakota'</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'PA'</span>: <span class="st">'Pennsylvania'</span>,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NH'</span>: <span class="st">'New Hampshire'</span>,</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MN'</span>: <span class="st">'Minnesota'</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'VT'</span>: <span class="st">'Vermont'</span>,</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MA'</span>: <span class="st">'Massachusetts'</span>,</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MD'</span>: <span class="st">'Maryland'</span>,</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'IN'</span>: <span class="st">'Indiana'</span>,</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">'VA'</span>: <span class="st">'Virginia'</span>,</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">'HI'</span>: <span class="st">'Hawaii'</span>,</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">'RI'</span>: <span class="st">'Rhode Island'</span>,</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">'DC'</span>: <span class="st">'District of Columbia'</span>,</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NM'</span>: <span class="st">'New Mexico'</span>,</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TX'</span>: <span class="st">'Texas'</span>,</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NJ'</span>: <span class="st">'New Jersey'</span>,</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CA'</span>: <span class="st">'California'</span>,</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MI'</span>: <span class="st">'Michigan'</span>,</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AK'</span>: <span class="st">'Alaska'</span>,</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">'SC'</span>: <span class="st">'South Carolina'</span>,</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'KS'</span>: <span class="st">'Kansas'</span>,</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'GU'</span>: <span class="st">'Guam'</span>,</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CO'</span>: <span class="st">'Colorado'</span>,</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MT'</span>: <span class="st">'Montana'</span>,</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ME'</span>: <span class="st">'Maine'</span>,</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">'DE'</span>: <span class="st">'Delaware'</span>,</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">'WA'</span>: <span class="st">'Washington'</span>,</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CQ'</span>: <span class="st">'Commonwealth of the Northern Mariana Islands'</span>,</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'CT'</span>: <span class="st">'Connecticut'</span>,</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">'PR'</span>: <span class="st">'Puerto Rico'</span>,</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AZ'</span>: <span class="st">'Arizona'</span>,</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NC'</span>: <span class="st">'North Carolina'</span>,</span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">'UT'</span>: <span class="st">'Utah'</span>,</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NV'</span>: <span class="st">'Nevada'</span>,</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">'IA'</span>: <span class="st">'Iowa'</span>,</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MO'</span>: <span class="st">'Missouri'</span>,</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MS'</span>: <span class="st">'Mississippi'</span>,</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AL'</span>: <span class="st">'Alabama'</span>,</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NY'</span>: <span class="st">'New York'</span>,</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">'GA'</span>: <span class="st">'Georgia'</span>,</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">'SD'</span>: <span class="st">'South Dakota'</span>,</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OK'</span>: <span class="st">'Oklahoma'</span>,</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AR'</span>: <span class="st">'Arkansas'</span>,</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>    <span class="st">'LA'</span>: <span class="st">'Louisiana'</span>,</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AS'</span>: <span class="st">'American Samoa'</span>,</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">'IL'</span>: <span class="st">'Illinois'</span>,</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ID'</span>: <span class="st">'Idaho'</span>,</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">'WV'</span>: <span class="st">'West Virginia'</span>,</span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TN'</span>: <span class="st">'Tennessee'</span>,</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">'FL'</span>: <span class="st">'Florida'</span>,</span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">'WI'</span>: <span class="st">'Wisconsin'</span>,</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    <span class="st">'WY'</span>: <span class="st">'Wyoming'</span>,</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">'OR'</span>: <span class="st">'Oregon'</span>,</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">'VI'</span>: <span class="st">'United States Virgin Islands'</span></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>airport[<span class="st">'state'</span>] <span class="op">=</span> airport[<span class="st">'state'</span>].replace(state_dict)</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>airport</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['Alabama', 'Alaska', 'Arizona', 'Colorado', 'Florida']
 in common: 0 []
-missing state in map: 57 ['LA', 'IA', 'PR', 'NY', 'AK', 'AL', 'MT', 'GU', 'MS', 'ME', 'RI', 'ND', 'ID', 'PA', 'WY', 'VT', 'NM', 'OK', 'CQ', 'GA', 'AR', 'MD', 'IN', 'SD', 'TX', 'SC', 'WI', 'DE', 'HI', 'KS', 'MA', 'KY', 'UT', 'MO', 'AS', 'VI', 'FL', 'IL', 'WV', 'VA', 'WA', 'NH', 'NV', 'AZ', 'NJ', 'OH', 'DC', 'NC', 'TN', 'CO', 'CA', 'OR', 'MI', 'MN', nan, 'CT', 'NE']
-extra state in map 56 ['Guam', 'Wisconsin', 'Hawaii', 'Oregon', 'United States Virgin Islands', 'Kansas', 'Arkansas', 'North Dakota', 'Nebraska', 'Alaska', 'Georgia', 'Idaho', 'Massachusetts', 'Maine', 'Pennsylvania', 'Connecticut', 'New York', 'Kentucky', 'Mississippi', 'New Hampshire', 'District of Columbia', 'Maryland', 'Utah', 'Commonwealth of the Northern Mariana Islands', 'California', 'Delaware', 'Wyoming', 'Florida', 'Virginia', 'Iowa', 'Michigan', 'South Carolina', 'Indiana', 'Minnesota', 'North Carolina', 'Vermont', 'Tennessee', 'New Jersey', 'Arizona', 'South Dakota', 'Ohio', 'Puerto Rico', 'West Virginia', 'Oklahoma', 'American Samoa', 'Nevada', 'Louisiana', 'Rhode Island', 'Illinois', 'Washington', 'Alabama', 'Missouri', 'Texas', 'Montana', 'Colorado', 'New Mexico']</code></pre>
+missing state in map: 57 ['KS', 'ID', 'AK', 'GU', 'OR', 'NY', 'WV', 'PR', 'HI', 'MS', 'MA', 'PA', 'AS', 'ME', 'NC', 'IN', 'MT', 'VT', 'MI', 'MO', 'NH', 'RI', 'NM', 'SC', 'UT', 'OK', 'IA', 'WA', 'MD', 'NE', 'DE', 'WI', 'AR', 'CT', 'GA', 'NV', 'TX', 'KY', 'OH', 'NJ', 'IL', 'CQ', 'CO', 'SD', 'MN', 'CA', 'AL', 'VI', 'LA', 'WY', 'FL', nan, 'AZ', 'DC', 'ND', 'VA', 'TN']
+extra state in map 56 ['Guam', 'Montana', 'Oregon', 'Texas', 'Michigan', 'New York', 'Utah', 'Puerto Rico', 'Nevada', 'Rhode Island', 'Kansas', 'South Carolina', 'California', 'Nebraska', 'Alabama', 'Vermont', 'Illinois', 'District of Columbia', 'Idaho', 'West Virginia', 'Commonwealth of the Northern Mariana Islands', 'Delaware', 'New Hampshire', 'Maine', 'New Jersey', 'North Carolina', 'Arkansas', 'Colorado', 'Tennessee', 'Pennsylvania', 'Mississippi', 'Virginia', 'Maryland', 'Louisiana', 'Connecticut', 'Florida', 'Alaska', 'South Dakota', 'Wisconsin', 'Missouri', 'New Mexico', 'American Samoa', 'Indiana', 'United States Virgin Islands', 'Minnesota', 'Wyoming', 'Hawaii', 'Oklahoma', 'Ohio', 'Kentucky', 'Iowa', 'Arizona', 'Washington', 'Massachusetts', 'North Dakota', 'Georgia']</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="63">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <div>
 
 
@@ -599,7 +886,10 @@ extra state in map 56 ['Guam', 'Wisconsin', 'Hawaii', 'Oregon', 'United States V
 <section id="group-up-airports-by-state-to-get-the-count-of-airports-in-each-state" class="level3">
 <h3 class="anchored" data-anchor-id="group-up-airports-by-state-to-get-the-count-of-airports-in-each-state">group up airports by state to get the count of airports in each state</h3>
 <div class="cell" data-execution_count="12">
-<div class="cell-output cell-output-display" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># group up airports by state to get the count of airports in each state</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>airport_count_per_state <span class="op">=</span> airport.groupby(<span class="st">'state'</span>).size().reset_index(name<span class="op">=</span><span class="st">'airport_count'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>airport_count_per_state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
 <div>
 
 
@@ -903,26 +1193,34 @@ extra state in map 56 ['Guam', 'Wisconsin', 'Hawaii', 'Oregon', 'United States V
 <section id="number-of-airport-in-each-state" class="level2">
 <h2 class="anchored" data-anchor-id="number-of-airport-in-each-state">Number of airport in each state</h2>
 <div class="cell" data-execution_count="13">
-<div class="cell-output cell-output-display" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>airport_map<span class="op">=</span> state_map.transform_lookup(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  lookup<span class="op">=</span><span class="st">'properties.name'</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  from_<span class="op">=</span>alt.LookupData(airport_count_per_state, <span class="st">'state'</span>, [<span class="st">'airport_count'</span>])</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  ).encode(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    fill <span class="op">=</span> <span class="st">"airport_count:Q"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    stroke <span class="op">=</span> <span class="st">"airport_count:Q"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    ).properties(width <span class="op">=</span> <span class="dv">600</span>, height <span class="op">=</span> <span class="dv">400</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>airport_map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
 
 <style>
-  #altair-viz-9a36750d42b84229b41f87b25d415cb9.vega-embed {
+  #altair-viz-258b2ba0c4ed4d26be09688634e91698.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-9a36750d42b84229b41f87b25d415cb9.vega-embed details,
-  #altair-viz-9a36750d42b84229b41f87b25d415cb9.vega-embed details summary {
+  #altair-viz-258b2ba0c4ed4d26be09688634e91698.vega-embed details,
+  #altair-viz-258b2ba0c4ed4d26be09688634e91698.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-9a36750d42b84229b41f87b25d415cb9"></div>
+<div id="altair-viz-258b2ba0c4ed4d26be09688634e91698"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-9a36750d42b84229b41f87b25d415cb9") {
-      outputDiv = document.getElementById("altair-viz-9a36750d42b84229b41f87b25d415cb9");
+    if (outputDiv.id !== "altair-viz-258b2ba0c4ed4d26be09688634e91698") {
+      outputDiv = document.getElementById("altair-viz-258b2ba0c4ed4d26be09688634e91698");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -972,6 +1270,21 @@ extra state in map 56 ['Guam', 'Wisconsin', 'Hawaii', 'Oregon', 'United States V
 </script>
 </div>
 </div>
+<section id="question-3" class="level3">
+<h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
+<p>What is the main story of this graphic?</p>
+<p>Just as it is written in the title, the graphic shows that Padel clubs generate more than half of the padel market revenue.</p>
+<p>What makes it a good graphic?</p>
+<p>The title tells the story of the graphic rather than just comparing the data such as “padel market revenue.” Following the title, the graphic is easy to read: since the padel club’s revenue box clearly is more than half of the entire box, we can easily read what the graphic is trying to convey without deep analysis. Since the data is hierarchically represented by nested rectangles, it is easy to read the overall composition and the hierarchy within the data without extra guide.</p>
+<p>What features do you think you would know how to implement in Vega-lite?</p>
+<p>I looked up treemaps in vegalite documentation, but I don’t think I can implement one with the things we’ve learned so far</p>
+<p>Are there any features of the graphic that you would not know how to do in Vega-lite? If so, list them.</p>
+<ol type="1">
+<li><p>making treemap</p></li>
+<li><p>putting images in the center of each box</p></li>
+<li><p>using two titles, one for the main and one for the sub.</p></li>
+</ol>
+</section>
 </section>
 
 </main>

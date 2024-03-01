@@ -1,0 +1,154 @@
+---
+title: "hw7"
+format: html
+editor: visual
+---
+
+## Challenge: Create graphics to compare gas prices in $ per gallon. Take advantage of the countries/regions/codes data to do things like use 3-letter codes for countries, group them by region, etc.
+```{python}
+import pandas as pd
+import altair as alt
+
+# data
+gapminder_url = "https://calvin-data304.netlify.app/data/pump_price_for_gasoline_us_per_liter.csv"
+c_r_c = "https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv" 
+
+data = pd.read_csv(gapminder_url)
+dataw = pd.read_csv(c_r_c)
+
+# Print column names of both dataframes
+print("Columns of data dataframe:", data.columns)
+print("Columns of dataw dataframe:", dataw.columns)
+
+
+
+try:
+    left_merged = pd.merge(data, dataw, how="left", left_on="country", right_on="name")
+    left_merged.drop(columns=['name'], inplace=True)
+    print(left_merged.head())
+except KeyError as e:
+    print("KeyError:", e)
+```
+
+```{python}
+group = left_merged.groupby('sub-region').mean(numeric_only=True).reset_index()
+# Specify the columns to drop
+columns_to_drop = ["country-code", "sub-region-code", "region-code", "intermediate-region-code"]
+
+# Assuming the years are represented as string columns like '1991', '1992', ..., '2015'
+melted_df = pd.melt(left_merged, id_vars=['sub-region'], value_vars=[str(year) for year in range(1991, 2016)], var_name='year', value_name='gasoline_price')
+```
+
+```{python}
+```
+
+
+```{python}
+chart = alt.Chart(melted_df).mark_line().encode(
+    x='year:N',  # Assuming 'year' is a nominal variable (categorical)
+    y='gasoline_price:Q',  # Assuming 'gasoline_price' is a quantitative variable
+    color='sub-region:N',  # Assuming 'sub-region' is a nominal variable (categorical)
+    tooltip=['sub-region:N', 'year:N', 'gasoline_price:Q']  # Optional: Add tooltip
+).properties(
+    width=600,
+    height=400,
+    title='Gasoline Prices by Sub-Region (1991-2015)'
+)
+
+chart
+
+```
+
+## investigate:
+
+Challenge: Investigate
+
+How our business compares to other businesses (over time and in February 2020)
+How the components of the net promoter score for our business have changed over time
+
+1. In February 2020, our business was performing well, with only three other businesses boasting higher NPS scores. Also, comparing our business's promoter rating over time, we also had the highest number of promoter in February 2020.
+
+2. Previously, in 2019, only competitor A showed a slightly negative trend(but it still remains the highest rank) whereas our company and competitor B,C and D showed no change or slight increase. After December 2019, our business consistently held the fourth position and demonstrated a slight positive change over time.
+
+While passive responses dominated initially, they decreased toward the end. Both detractor and promoter responses exhibited growth, with promoter responses becoming the highest among all over time.
+
+## Create a graphic that shows how many respondents there were in each country. Present the countries in an order that is more interesting than alphabetical. Were they roughly equal or were there notable difference among the countries?
+
+
+```{python}
+q2_data ="https://calvin-data304.netlify.app/data/wvs.csv"
+q2 = pd.read_csv(q2_data)
+q2_count = q2.groupby("country").size().reset_index(name='count')
+q2_count.head
+```
+
+```{python}
+# grpah for q2
+
+alt.Chart(q2_count).mark_bar().encode(
+  x = "count:Q",
+  y = alt.Y("country:N").sort("-x"),
+)
+```
+## There are three age-related variables: age, age3, and age6. The latter two put respondents into 3 and 6 age groups respectively. Create graphics that let you see what the age groupings are and check whether these are the same across all the countries.
+```{python}
+import altair as alt
+
+# Assuming q2 contains the data with age-related variables (age, age3, age6) for each country
+
+# Sample the data to reduce the number of rows
+sampled_q2 = q2.sample(n=5000, random_state=42)  # Adjust the number of samples as needed
+
+
+# Create a stacked bar chart for the 'age3' variable
+chart_age3 = alt.Chart(sampled_q2).mark_bar().encode(
+    x=alt.X('country:N', title='country'),
+    y=alt.Y('age3:N', title='age3'),
+    color=alt.Color('age:N', title='age')
+).properties(
+    width=400,
+    height=300,
+    title='Distribution of Age Groups (age3)'
+)
+
+# Create a stacked bar chart for the 'age6' variable
+chart_age6 = alt.Chart(sampled_q2).mark_line().encode(
+    x=alt.X('age6:N', title='Age Group'),
+    y=alt.Y('count()', title='Count'),
+    color=alt.Color('country:N', title='Country')
+).properties(
+    width=400,
+    height=300,
+    title='Distribution of Age Groups (age6)'
+)
+
+# Arrange the charts horizontally
+chart = alt.hconcat(chart_age3, chart_age6)
+
+chart
+
+```
+```{python}
+import altair as alt
+from IPython.display import display  # Import display function
+
+# Assuming q2 contains the data with age-related variables (age, age3, age6) for each country
+alt.data_transformers.disable_max_rows()
+# Melt the DataFrame to long format for easier plotting
+sampled_q2_2_melt = pd.melt(q2, id_vars=['country', "age3"], value_vars = ["age"])
+sampled_q2_2_melt.drop(columns=['variable'], inplace=True)
+
+# Create a grouped bar chart
+
+histograms = alt.Chart(sampled_q2_2_melt).mark_bar().encode(
+    x=alt.X('age:Q', title='Age Group'),
+    y=alt.Y('age3:N', title='Frequency'),
+    color=alt.Color('country:N', title='Country'),
+    column=alt.Column('country:N', title='Age Variable')
+).properties(
+    width=200,
+    height=200
+)
+histograms
+```
+
