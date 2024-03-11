@@ -1,11 +1,15 @@
 ---
-title: "DATA304-hw5-Portfolio"
+title: "DATA304 Portfolio"
 author: "David Kim"
 format: html
 editor: visual
 echo : True
 ---
+#HW7
 
+[link to hw7](hw7.html) 
+
+#HW5
 ```{python}
 import altair as alt
 import pandas as pd
