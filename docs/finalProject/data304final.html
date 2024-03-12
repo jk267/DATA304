@@ -58,16 +58,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="index_files/libs/clipboard/clipboard.min.js"></script>
-<script src="index_files/libs/quarto-html/quarto.js"></script>
-<script src="index_files/libs/quarto-html/popper.min.js"></script>
-<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="index_files/libs/quarto-html/anchor.min.js"></script>
-<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="data304final_files/libs/clipboard/clipboard.min.js"></script>
+<script src="data304final_files/libs/quarto-html/quarto.js"></script>
+<script src="data304final_files/libs/quarto-html/popper.min.js"></script>
+<script src="data304final_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="data304final_files/libs/quarto-html/anchor.min.js"></script>
+<link href="data304final_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="data304final_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="data304final_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="data304final_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="data304final_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -109,14 +109,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<p><a href="https://calvin-data304.netlify.app/data/twins-genetics-wide.csv">part 1 data</a></p>
-<p><a href="https://calvin-data304.netlify.app/data/pump_price_for_gasoline_us_per_liter.csv">part 2 data 1</a></p>
-<p><a href="https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv">part 2 data 2</a></p>
-<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZPVRZzK8tZAH6qeVEc1HzgFR9iTcIjj__HC66LGGFcwHoUiFA1yWc2MT_4MRPvs8VjA1BGy5pNnQd/pub?gid=0&amp;single=true&amp;output=csv">part 3 data</a></p>
-<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRsLwJcXI7x7pbSMWdfI4yp8GYMhK74sHQJMO6sqAyCC2deMZBGDaqf9nyZ7AlXFDQvWi43f6_pxEig/pub?output=csv">part 4 data</a></p>
-</section>
 <section id="part-1---homework-3-revision" class="level2">
 <h2 class="anchored" data-anchor-id="part-1---homework-3-revision">Part 1 - Homework 3 Revision</h2>
 <div class="cell" data-execution_count="2">
@@ -145,26 +137,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> <span class="st">"Comparing Ancestry Share Score Between Twins Using the 'Ancestry' Kit"</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>kit_compare</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="39">
 
 <style>
-  #altair-viz-8a4e105812f54adea3c0b36699c327dc.vega-embed {
+  #altair-viz-f0c5787f948f45f3a5155296daf228e0.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-8a4e105812f54adea3c0b36699c327dc.vega-embed details,
-  #altair-viz-8a4e105812f54adea3c0b36699c327dc.vega-embed details summary {
+  #altair-viz-f0c5787f948f45f3a5155296daf228e0.vega-embed details,
+  #altair-viz-f0c5787f948f45f3a5155296daf228e0.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-8a4e105812f54adea3c0b36699c327dc"></div>
+<div id="altair-viz-f0c5787f948f45f3a5155296daf228e0"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-8a4e105812f54adea3c0b36699c327dc") {
-      outputDiv = document.getElementById("altair-viz-8a4e105812f54adea3c0b36699c327dc");
+    if (outputDiv.id !== "altair-viz-f0c5787f948f45f3a5155296daf228e0") {
+      outputDiv = document.getElementById("altair-viz-f0c5787f948f45f3a5155296daf228e0");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -230,26 +222,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>alt.hconcat(<span class="op">*</span>kit_compare).properties(</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> <span class="st">"Comparing Different DNA Kits Between 6 Twins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="40">
 
 <style>
-  #altair-viz-984e518b6f9f483caf7a505b3b199e6b.vega-embed {
+  #altair-viz-8444847e929d4a2dabb945812a5bc59d.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-984e518b6f9f483caf7a505b3b199e6b.vega-embed details,
-  #altair-viz-984e518b6f9f483caf7a505b3b199e6b.vega-embed details summary {
+  #altair-viz-8444847e929d4a2dabb945812a5bc59d.vega-embed details,
+  #altair-viz-8444847e929d4a2dabb945812a5bc59d.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-984e518b6f9f483caf7a505b3b199e6b"></div>
+<div id="altair-viz-8444847e929d4a2dabb945812a5bc59d"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-984e518b6f9f483caf7a505b3b199e6b") {
-      outputDiv = document.getElementById("altair-viz-984e518b6f9f483caf7a505b3b199e6b");
+    if (outputDiv.id !== "altair-viz-8444847e929d4a2dabb945812a5bc59d") {
+      outputDiv = document.getElementById("altair-viz-8444847e929d4a2dabb945812a5bc59d");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -295,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "hconcat": [{"mark": {"type": "point"}, "encoding": {"color": {"field": "region", "type": "nominal"}, "tooltip": [{"field": "twin", "type": "nominal"}, {"field": "pair", "type": "quantitative"}], "x": {"field": "Ancestry", "type": "quantitative"}, "y": {"field": "23andMe", "type": "quantitative"}}, "height": 200, "name": "view_10", "width": 200}, {"mark": {"type": "point"}, "encoding": {"color": {"field": "region", "type": "nominal"}, "tooltip": [{"field": "twin", "type": "nominal"}, {"field": "pair", "type": "quantitative"}], "x": {"field": "23andMe", "type": "quantitative"}, "y": {"field": "MyHeritage", "type": "quantitative"}}, "height": 200, "name": "view_11", "width": 200}, {"mark": {"type": "point"}, "encoding": {"color": {"field": "region", "type": "nominal"}, "tooltip": [{"field": "twin", "type": "nominal"}, {"field": "pair", "type": "quantitative"}], "x": {"field": "MyHeritage", "type": "quantitative"}, "y": {"field": "Ancestry", "type": "quantitative"}}, "height": 200, "name": "view_12", "width": 200}], "data": {"name": "data-872890831bb932491c8623aee8498012"}, "params": [{"name": "param_10", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_10"]}, {"name": "param_11", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_11"]}, {"name": "param_12", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_12"]}], "title": "Comparing Different DNA Kits Between 6 Twins", "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json", "datasets": {"data-872890831bb932491c8623aee8498012": [{"twin": "1A", "pair": 1, "id": "A", "region": "NW Europe", "Ancestry": 0.9, "23andMe": 0.676, "MyHeritage": 0.647}, {"twin": "1A", "pair": 1, "id": "A", "region": "SE Europe", "Ancestry": 0.1, "23andMe": 0.32, "MyHeritage": 0.333}, {"twin": "1B", "pair": 1, "id": "B", "region": "NW Europe", "Ancestry": 0.9, "23andMe": 0.691, "MyHeritage": 0.687}, {"twin": "1B", "pair": 1, "id": "B", "region": "SE Europe", "Ancestry": 0.1, "23andMe": 0.305, "MyHeritage": 0.239}, {"twin": "2A", "pair": 2, "id": "A", "region": "West Africa", "Ancestry": 0.65, "23andMe": 0.762, "MyHeritage": 0.696}, {"twin": "2A", "pair": 2, "id": "A", "region": "Central Africa", "Ancestry": 0.22, "23andMe": 0.076, "MyHeritage": 0.12}, {"twin": "2A", "pair": 2, "id": "A", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.139, "MyHeritage": 0.104}, {"twin": "2A", "pair": 2, "id": "A", "region": "SE Europe", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}, {"twin": "2B", "pair": 2, "id": "B", "region": "West Africa", "Ancestry": 0.64, "23andMe": 0.76, "MyHeritage": 0.688}, {"twin": "2B", "pair": 2, "id": "B", "region": "Central Africa", "Ancestry": 0.23, "23andMe": 0.078, "MyHeritage": 0.112}, {"twin": "2B", "pair": 2, "id": "B", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.131, "MyHeritage": 0.106}, {"twin": "2B", "pair": 2, "id": "B", "region": "SE Europe", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}, {"twin": "3A", "pair": 3, "id": "A", "region": "NW Europe", "Ancestry": 0.99, "23andMe": 0.987, "MyHeritage": 0.992}, {"twin": "3A", "pair": 3, "id": "A", "region": "West Africa", "Ancestry": 0.01, "23andMe": 0.07, "MyHeritage": 0.0}, {"twin": "3B", "pair": 3, "id": "B", "region": "NW Europe", "Ancestry": 0.99, "23andMe": 0.987, "MyHeritage": 0.981}, {"twin": "3B", "pair": 3, "id": "B", "region": "West Africa", "Ancestry": 0.01, "23andMe": 0.01, "MyHeritage": 0.0}, {"twin": "4A", "pair": 4, "id": "A", "region": "West Africa", "Ancestry": 0.6, "23andMe": 0.772, "MyHeritage": 0.692}, {"twin": "4A", "pair": 4, "id": "A", "region": "Central Africa", "Ancestry": 0.27, "23andMe": 0.076, "MyHeritage": 0.076}, {"twin": "4A", "pair": 4, "id": "A", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.125, "MyHeritage": 0.092}, {"twin": "4B", "pair": 4, "id": "B", "region": "West Africa", "Ancestry": 0.6, "23andMe": 0.768, "MyHeritage": 0.707}, {"twin": "4B", "pair": 4, "id": "B", "region": "Central Africa", "Ancestry": 0.27, "23andMe": 0.08, "MyHeritage": 0.068}, {"twin": "4B", "pair": 4, "id": "B", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.115, "MyHeritage": 0.088}, {"twin": "4B", "pair": 4, "id": "B", "region": "East Asia", "Ancestry": 0.01, "23andMe": 0.017, "MyHeritage": 0.0}, {"twin": "4B", "pair": 4, "id": "B", "region": "SE Europe", "Ancestry": 0.0, "23andMe": 0.009, "MyHeritage": 0.094}, {"twin": "5A", "pair": 5, "id": "A", "region": "East Asia", "Ancestry": 1.0, "23andMe": 1.0, "MyHeritage": 0.978}, {"twin": "5B", "pair": 5, "id": "B", "region": "East Asia", "Ancestry": 1.0, "23andMe": 1.0, "MyHeritage": 0.973}, {"twin": "6A", "pair": 6, "id": "A", "region": "West Africa", "Ancestry": 0.62, "23andMe": 0.636, "MyHeritage": 0.61}, {"twin": "6A", "pair": 6, "id": "A", "region": "NW Europe", "Ancestry": 0.23, "23andMe": 0.245, "MyHeritage": 0.251}, {"twin": "6A", "pair": 6, "id": "A", "region": "Central Africa", "Ancestry": 0.12, "23andMe": 0.1, "MyHeritage": 0.11}, {"twin": "6A", "pair": 6, "id": "A", "region": "East Asia", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}, {"twin": "6B", "pair": 6, "id": "B", "region": "West Africa", "Ancestry": 0.62, "23andMe": 0.634, "MyHeritage": 0.624}, {"twin": "6B", "pair": 6, "id": "B", "region": "NW Europe", "Ancestry": 0.23, "23andMe": 0.247, "MyHeritage": 0.25}, {"twin": "6B", "pair": 6, "id": "B", "region": "Central Africa", "Ancestry": 0.13, "23andMe": 0.1, "MyHeritage": 0.089}, {"twin": "6B", "pair": 6, "id": "B", "region": "East Asia", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}]}}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "hconcat": [{"mark": {"type": "point"}, "encoding": {"color": {"field": "region", "type": "nominal"}, "tooltip": [{"field": "twin", "type": "nominal"}, {"field": "pair", "type": "quantitative"}], "x": {"field": "Ancestry", "type": "quantitative"}, "y": {"field": "23andMe", "type": "quantitative"}}, "height": 200, "name": "view_13", "width": 200}, {"mark": {"type": "point"}, "encoding": {"color": {"field": "region", "type": "nominal"}, "tooltip": [{"field": "twin", "type": "nominal"}, {"field": "pair", "type": "quantitative"}], "x": {"field": "23andMe", "type": "quantitative"}, "y": {"field": "MyHeritage", "type": "quantitative"}}, "height": 200, "name": "view_14", "width": 200}, {"mark": {"type": "point"}, "encoding": {"color": {"field": "region", "type": "nominal"}, "tooltip": [{"field": "twin", "type": "nominal"}, {"field": "pair", "type": "quantitative"}], "x": {"field": "MyHeritage", "type": "quantitative"}, "y": {"field": "Ancestry", "type": "quantitative"}}, "height": 200, "name": "view_15", "width": 200}], "data": {"name": "data-872890831bb932491c8623aee8498012"}, "params": [{"name": "param_13", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_13"]}, {"name": "param_14", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_14"]}, {"name": "param_15", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_15"]}], "title": "Comparing Different DNA Kits Between 6 Twins", "$schema": "https://vega.github.io/schema/vega-lite/v5.8.0.json", "datasets": {"data-872890831bb932491c8623aee8498012": [{"twin": "1A", "pair": 1, "id": "A", "region": "NW Europe", "Ancestry": 0.9, "23andMe": 0.676, "MyHeritage": 0.647}, {"twin": "1A", "pair": 1, "id": "A", "region": "SE Europe", "Ancestry": 0.1, "23andMe": 0.32, "MyHeritage": 0.333}, {"twin": "1B", "pair": 1, "id": "B", "region": "NW Europe", "Ancestry": 0.9, "23andMe": 0.691, "MyHeritage": 0.687}, {"twin": "1B", "pair": 1, "id": "B", "region": "SE Europe", "Ancestry": 0.1, "23andMe": 0.305, "MyHeritage": 0.239}, {"twin": "2A", "pair": 2, "id": "A", "region": "West Africa", "Ancestry": 0.65, "23andMe": 0.762, "MyHeritage": 0.696}, {"twin": "2A", "pair": 2, "id": "A", "region": "Central Africa", "Ancestry": 0.22, "23andMe": 0.076, "MyHeritage": 0.12}, {"twin": "2A", "pair": 2, "id": "A", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.139, "MyHeritage": 0.104}, {"twin": "2A", "pair": 2, "id": "A", "region": "SE Europe", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}, {"twin": "2B", "pair": 2, "id": "B", "region": "West Africa", "Ancestry": 0.64, "23andMe": 0.76, "MyHeritage": 0.688}, {"twin": "2B", "pair": 2, "id": "B", "region": "Central Africa", "Ancestry": 0.23, "23andMe": 0.078, "MyHeritage": 0.112}, {"twin": "2B", "pair": 2, "id": "B", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.131, "MyHeritage": 0.106}, {"twin": "2B", "pair": 2, "id": "B", "region": "SE Europe", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}, {"twin": "3A", "pair": 3, "id": "A", "region": "NW Europe", "Ancestry": 0.99, "23andMe": 0.987, "MyHeritage": 0.992}, {"twin": "3A", "pair": 3, "id": "A", "region": "West Africa", "Ancestry": 0.01, "23andMe": 0.07, "MyHeritage": 0.0}, {"twin": "3B", "pair": 3, "id": "B", "region": "NW Europe", "Ancestry": 0.99, "23andMe": 0.987, "MyHeritage": 0.981}, {"twin": "3B", "pair": 3, "id": "B", "region": "West Africa", "Ancestry": 0.01, "23andMe": 0.01, "MyHeritage": 0.0}, {"twin": "4A", "pair": 4, "id": "A", "region": "West Africa", "Ancestry": 0.6, "23andMe": 0.772, "MyHeritage": 0.692}, {"twin": "4A", "pair": 4, "id": "A", "region": "Central Africa", "Ancestry": 0.27, "23andMe": 0.076, "MyHeritage": 0.076}, {"twin": "4A", "pair": 4, "id": "A", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.125, "MyHeritage": 0.092}, {"twin": "4B", "pair": 4, "id": "B", "region": "West Africa", "Ancestry": 0.6, "23andMe": 0.768, "MyHeritage": 0.707}, {"twin": "4B", "pair": 4, "id": "B", "region": "Central Africa", "Ancestry": 0.27, "23andMe": 0.08, "MyHeritage": 0.068}, {"twin": "4B", "pair": 4, "id": "B", "region": "NW Europe", "Ancestry": 0.12, "23andMe": 0.115, "MyHeritage": 0.088}, {"twin": "4B", "pair": 4, "id": "B", "region": "East Asia", "Ancestry": 0.01, "23andMe": 0.017, "MyHeritage": 0.0}, {"twin": "4B", "pair": 4, "id": "B", "region": "SE Europe", "Ancestry": 0.0, "23andMe": 0.009, "MyHeritage": 0.094}, {"twin": "5A", "pair": 5, "id": "A", "region": "East Asia", "Ancestry": 1.0, "23andMe": 1.0, "MyHeritage": 0.978}, {"twin": "5B", "pair": 5, "id": "B", "region": "East Asia", "Ancestry": 1.0, "23andMe": 1.0, "MyHeritage": 0.973}, {"twin": "6A", "pair": 6, "id": "A", "region": "West Africa", "Ancestry": 0.62, "23andMe": 0.636, "MyHeritage": 0.61}, {"twin": "6A", "pair": 6, "id": "A", "region": "NW Europe", "Ancestry": 0.23, "23andMe": 0.245, "MyHeritage": 0.251}, {"twin": "6A", "pair": 6, "id": "A", "region": "Central Africa", "Ancestry": 0.12, "23andMe": 0.1, "MyHeritage": 0.11}, {"twin": "6A", "pair": 6, "id": "A", "region": "East Asia", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}, {"twin": "6B", "pair": 6, "id": "B", "region": "West Africa", "Ancestry": 0.62, "23andMe": 0.634, "MyHeritage": 0.624}, {"twin": "6B", "pair": 6, "id": "B", "region": "NW Europe", "Ancestry": 0.23, "23andMe": 0.247, "MyHeritage": 0.25}, {"twin": "6B", "pair": 6, "id": "B", "region": "Central Africa", "Ancestry": 0.13, "23andMe": 0.1, "MyHeritage": 0.089}, {"twin": "6B", "pair": 6, "id": "B", "region": "East Asia", "Ancestry": 0.01, "23andMe": 0.006, "MyHeritage": 0.0}]}}, {"mode": "vega-lite"});
 </script>
 </div>
 </div>
@@ -359,26 +351,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the chart</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>chart</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="42">
 
 <style>
-  #altair-viz-c0808270fb0d452db9b67add54ab2c95.vega-embed {
+  #altair-viz-7e8b5d20f3f844aeb138daa24da29f11.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-c0808270fb0d452db9b67add54ab2c95.vega-embed details,
-  #altair-viz-c0808270fb0d452db9b67add54ab2c95.vega-embed details summary {
+  #altair-viz-7e8b5d20f3f844aeb138daa24da29f11.vega-embed details,
+  #altair-viz-7e8b5d20f3f844aeb138daa24da29f11.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-c0808270fb0d452db9b67add54ab2c95"></div>
+<div id="altair-viz-7e8b5d20f3f844aeb138daa24da29f11"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-c0808270fb0d452db9b67add54ab2c95") {
-      outputDiv = document.getElementById("altair-viz-c0808270fb0d452db9b67add54ab2c95");
+    if (outputDiv.id !== "altair-viz-7e8b5d20f3f844aeb138daa24da29f11") {
+      outputDiv = document.getElementById("altair-viz-7e8b5d20f3f844aeb138daa24da29f11");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -497,26 +489,26 @@ unmet_need_familyplan_pc
 3                      22.3  
 4                      26.0  </code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="34">
+<div class="cell-output cell-output-display" data-execution_count="43">
 
 <style>
-  #altair-viz-469e1d2f7c63410fa09296ed381c2184.vega-embed {
+  #altair-viz-3384b40d4ed5419a82448b511b6fa556.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-469e1d2f7c63410fa09296ed381c2184.vega-embed details,
-  #altair-viz-469e1d2f7c63410fa09296ed381c2184.vega-embed details summary {
+  #altair-viz-3384b40d4ed5419a82448b511b6fa556.vega-embed details,
+  #altair-viz-3384b40d4ed5419a82448b511b6fa556.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-469e1d2f7c63410fa09296ed381c2184"></div>
+<div id="altair-viz-3384b40d4ed5419a82448b511b6fa556"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-469e1d2f7c63410fa09296ed381c2184") {
-      outputDiv = document.getElementById("altair-viz-469e1d2f7c63410fa09296ed381c2184");
+    if (outputDiv.id !== "altair-viz-3384b40d4ed5419a82448b511b6fa556") {
+      outputDiv = document.getElementById("altair-viz-3384b40d4ed5419a82448b511b6fa556");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -580,8 +572,8 @@ unmet_need_familyplan_pc
 </section>
 <section id="part-4---masterpiece" class="level2">
 <h2 class="anchored" data-anchor-id="part-4---masterpiece">Part 4 - Masterpiece</h2>
-<section id="data-1" class="level4">
-<h4 class="anchored" data-anchor-id="data-1">data</h4>
+<section id="data" class="level4">
+<h4 class="anchored" data-anchor-id="data">data</h4>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>OECD_birth_rate_url <span class="op">=</span> <span class="st">'https://docs.google.com/spreadsheets/d/e/2PACX-1vRsLwJcXI7x7pbSMWdfI4yp8GYMhK74sHQJMO6sqAyCC2deMZBGDaqf9nyZ7AlXFDQvWi43f6_pxEig/pub?output=csv'</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -663,26 +655,26 @@ unmet_need_familyplan_pc
 <span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>combined_chart <span class="op">=</span> alt.layer(line, label, min_birth_rate_text, min_birth_rate_line).configure_axisX(grid<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>combined_chart</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div class="cell-output cell-output-display" data-execution_count="45">
 
 <style>
-  #altair-viz-e5ac7ccc9cf04189955f30f9409e6296.vega-embed {
+  #altair-viz-a16b32d412694b8cbb01cc349a6451d8.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-e5ac7ccc9cf04189955f30f9409e6296.vega-embed details,
-  #altair-viz-e5ac7ccc9cf04189955f30f9409e6296.vega-embed details summary {
+  #altair-viz-a16b32d412694b8cbb01cc349a6451d8.vega-embed details,
+  #altair-viz-a16b32d412694b8cbb01cc349a6451d8.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-e5ac7ccc9cf04189955f30f9409e6296"></div>
+<div id="altair-viz-a16b32d412694b8cbb01cc349a6451d8"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-e5ac7ccc9cf04189955f30f9409e6296") {
-      outputDiv = document.getElementById("altair-viz-e5ac7ccc9cf04189955f30f9409e6296");
+    if (outputDiv.id !== "altair-viz-a16b32d412694b8cbb01cc349a6451d8") {
+      outputDiv = document.getElementById("altair-viz-a16b32d412694b8cbb01cc349a6451d8");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -759,11 +751,11 @@ unmet_need_familyplan_pc
 </section>
 <section id="b" class="level4">
 <h4 class="anchored" data-anchor-id="b">b</h4>
-<p><a href="https://clauswilke.com/dataviz/redundant-coding.html">20.2</a> “Whenever possible, design your figures so they don’t need a legend.”</p>
+<p><a href="'https://clauswilke.com/dataviz/redundant-coding.html'">20.2</a> “Whenever possible, design your figures so they don’t need a legend.”</p>
 <p>Eliminating legends, when necessary, makes it immediately clear what each graphical element represents, even without an explicit legend. This strategy, known as direct labeling, involves placing text labels or visual elements strategically throughout the figure to guide the viewer.</p>
 <p>Following this advice, instead of including a color legend for the lines as initially done(which made the graphic messy), I removed the legend in part 4 graphic and added tick text next to the last value of the highlighted line to lessen the burden on the reader, reducing the need to locate and match the country.</p>
 <p>Grid lines that run perpendicular to the key variable of interest tend to be the most useful.</p>
-<p><a href="https://clauswilke.com/dataviz/balance-data-context.html">23.2</a> “Grid lines that run perpendicular to the key variable of interest tend to be the most useful.”</p>
+<p><a href="'https://clauswilke.com/dataviz/balance-data-context.html'">23.2</a> “Grid lines that run perpendicular to the key variable of interest tend to be the most useful.”</p>
 <p>Using this advice, I removed the x-grid in the Part 4 graphic since it wasn’t enhancing the visualization and because the y-value is the key variable of interest.</p>
 </section>
 <section id="reference" class="level4">
