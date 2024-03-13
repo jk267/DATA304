@@ -1,310 +1,42 @@
 ---
-title: "Spring 24 DATA304 - Final Project"
+title: "Spring 2024 DATA304 - Final Project"
 format: html
 editor: visual
 author: "David Kim"
 ---
 
-```{python}
-#necessary imports
-import pandas as pd
-import altair as alt
-```
 
-## Part 1 - Homework 3 Revision
+## Links to files
+[Part 1](final_project_part1/final_part1.html)
 
-```{python}
-#Data
-DNA_kits_url_wide = 'https://calvin-data304.netlify.app/data/twins-genetics-wide.csv'
+[Part 2](final_project_part2/final_part2.html)
 
-DNA_kit_wide = pd.read_csv(DNA_kits_url_wide)
-print(DNA_kit_wide.head())
-```
+[Part 3](final_project_part3/final_part3.html)
 
-#### Pair Comparison
-```{python}
-kit_compare = alt.Chart(DNA_kits_url_wide, width = 100, height = 200).mark_bar().encode(
-    x=alt.X("id:N", title = ''),
-    y=alt.Y("Ancestry:Q", title = 'Ancestry Share', axis=alt.Axis(format='%')),
-    color=alt.Color("region:N"),
-).facet( facet=alt.Facet("pair:N", title= "Pair Number")).properties(
-    title = "Comparing Ancestry Share Score Between Twins Using the 'Ancestry' Kit")
+[Part 4](final_project_part4/final_part4.html)
 
-kit_compare
-```
+#### Part 5 of the project is inlcluded in all Parts
+#### Part 6: Keep Learning is inlcluded in Part 4
 
-#### Kit Copmparison
-```{python}
+## Links to qmd files
 
-kit_compare = [
-    alt.Chart(DNA_kit_wide, width = 200, height = 200).mark_point().encode(
-        x=alt.X(x_col + ':Q'),
-        y=alt.Y(y_col + ':Q'),
-        color='region:N',
-        tooltip=['twin', 'pair']
-    ).interactive()
-    for x_col, y_col in [('Ancestry', '23andMe'), ('23andMe', 'MyHeritage'), ('MyHeritage', 'Ancestry')]
-]
+[Part 1](final_project_part1/final_part1.qmd)
 
-alt.hconcat(*kit_compare).properties(
-    title = "Comparing Different DNA Kits Between 6 Twins")
-```
+[Part 2](final_project_part2/final_part2.qmd)
 
-#### Palette Usage for Part 1 
-an encoding channel other than x or y : color
+[Part 3](final_project_part3/final_part3.qmd)
 
-facet : columns
+[Part 4](final_project_part4/final_part4.qmd)
 
-concatenation : hconcat
 
-non-default configuration of a channel’s scale or guide : width and height
+## Data
+[part 1 data](https://calvin-data304.netlify.app/data/twins-genetics-wide.csv)
 
-interaction : tooltip 
+[part 2 data 1](https://calvin-data304.netlify.app/data/pump_price_for_gasoline_us_per_liter.csv)
 
-### The Story
+[part 2 data 2](https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv)
 
-The graphics depict a comparison between DNA kits and twins based on their Ancestry scores. In the twin comparison graphics, twins share almost identical ancestry traits. In the kits comparison graphic, each kit was plotted with another kit in a scatter plot. Among the comparison, the graphic that compares '23andMe' and 'MyHeritage' shows a linear relationship, suggesting that the two kits yield similar results compared to the 'Ancestry' kit.
+[part 3 data](https://docs.google.com/spreadsheets/d/e/2PACX-1vRZPVRZzK8tZAH6qeVEc1HzgFR9iTcIjj__HC66LGGFcwHoUiFA1yWc2MT_4MRPvs8VjA1BGy5pNnQd/pub?gid=0&single=true&output=csv)
 
-
-
-### Graphic I liked from HW3 gallery
-
-Arron 7. Aaron Toth -comparing kits
-
-What I like about this approach is that it allows for a more nuanced understanding of the data compared to a simple bar chart. With a scatter plot, you can easily discern patterns and variations in the genetic ancestry results for each twin. Additionally, the non-linear arrangement of points can indicate differences between twins, highlighting individual genetic variations.
-
-### Graphic I didn't like from HW3 gallery
-
-10. Davis Addink - comparing twins
-
-While the purpose of the graphic is to compare the twins, there isn't much interpretability based on the same color of the twins and graph, as all kits are colored differently, not by region. Additionally, the bars seem to be stacked with the same color, and I wasn't able to discern their purpose.
-
-## Part 2 - Homework 7 Revision
-```{python}
-# data 
-Gapminder_url = 'https://calvin-data304.netlify.app/data/pump_price_for_gasoline_us_per_liter.csv'
-countries_regions_codes = 'https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv'
-
-# Load data
-Gapminder = pd.read_csv(Gapminder_url)
-ctry_rgn = pd.read_csv(countries_regions_codes)
-
-# Melting Gapminder data
-years = [str(year) for year in range(2000, 2017)]
-gapminder_melt = pd.melt(Gapminder, id_vars=['country'], value_vars=years, var_name='year')
-
-# Drop null values in 'value' column
-gapminder_melt = gapminder_melt.dropna(subset=['value'])
-
-```
-
-```{python}
-chart = alt.Chart(gapminder_melt).mark_line().encode(
-    x= alt.X('year:N' , axis=alt.Axis(labelAngle=0)),
-    y=alt.Y('mean(value):Q', title='Average Gas Prices in $ per Gallon'),
-    color='region:N'
-).transform_lookup(
-    lookup='country',
-    from_=alt.LookupData(data=ctry_rgn, key='name', fields=['region'])
-).properties(
-    title='Average Gasoline Price by Region 2000 - 2016',
-    width=400,
-    height=300
-)
-
-# Show the chart
-chart
-```
-#### Palette Usage for Part 1 
-an encoding channel other than x or y : color
-
-non-default configuration of a channel’s scale or guide : width and height
-
-other : transform lookup
-
-
-## Part 3 - New Challenge
-
-```{python}
-# data 
-q3_url= 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRZPVRZzK8tZAH6qeVEc1HzgFR9iTcIjj__HC66LGGFcwHoUiFA1yWc2MT_4MRPvs8VjA1BGy5pNnQd/pub?gid=0&single=true&output=csv'
-q3_data = pd.read_csv(q3_url)
-
-for col in q3_data.columns:
-    print(col)
-print(q3_data.head())
-
-q3_data = q3_data.rename(columns={
-    'fetality_rate': 'Women Fertility rate(Ages 15-49)',
-    'unmet_need_familyplan_pc': 'Unmet Need for Family Planning-Women',
-    'contraception_use_pc': 'Current Contraception Use-Women'
-})
-
-
-# Divide the percentage values by 100 to get the correct percentage
-q3_data['Unmet Need for Family Planning-Women'] /= 100
-q3_data['Current Contraception Use-Women'] /= 100
-
-column = ['Unmet Need for Family Planning-Women', 'Current Contraception Use-Women']
-
-q3chart = alt.Chart(q3_data, width = 500).mark_line(point = True).encode(
-    x=alt.X('DHS_survey_year:N',title=None, axis=None),
-    y=alt.Y(alt.repeat('layer'), type='quantitative', title = "Percentage", scale=alt.Scale(domain=[0, 1])).axis(format  = "%"),
-    color=alt.ColorDatum(alt.repeat('layer'))
-).repeat(
-    layer  = column
-)
-
-fertility_rate_chart = alt.Chart(q3_data, width=500, height = 50).mark_line(point = True ).encode(
-    x=alt.X('DHS_survey_year:N', title='Survey Year', axis=alt.Axis(labelAngle=0)),
-    y=alt.Y('Women Fertility rate(Ages 15-49):Q', title='Fertility Rate',scale=alt.Scale(domain=[0, 7])),
-    color=alt.value("red")
-)
-
-# Concatenate both charts vertically
-combined_chart = alt.vconcat(q3chart, fertility_rate_chart)
-
-
-combined_chart.properties( title = 'More Individuals Opting for Contraception Methods Over Time')
-
-```
-#### Palette Usage for Part 3
-
-an encoding channel other than x or y : color
-
-layers : repeat layer 
-
-concatenation : vconcat
-
-non-default configuration of a channel’s scale or guide : width and height, scale(%)
-
-
-
-### Part 3 Story
-From 1991 to 2016, the grpahics indicate a consistent trend of slight decreases in both fertility rates and the unmet need for family planning. However, this decline does not appear to be significant over the studied period. In contrast, there is a notable increase in contraception use, which has risen from 5.9% to 38.4% during the same timeframe. This suggests a positive shift in reproductive health behaviors, with more individuals opting for contraception methods over time.
-
-
-## Part 4 - Masterpiece
-
-#### data
-```{python}
-OECD_birth_rate_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRsLwJcXI7x7pbSMWdfI4yp8GYMhK74sHQJMO6sqAyCC2deMZBGDaqf9nyZ7AlXFDQvWi43f6_pxEig/pub?output=csv'
-
-# the dataset was downloaded from the stat.OECD and transferred to google sheet to be published online
-OECD_birth_rate = pd.read_csv(OECD_birth_rate_url)
-print(OECD_birth_rate.head())
-
-# data wrangling
-OECD_birth_rate_long = pd.melt(OECD_birth_rate, id_vars=['country'], var_name = "year" , value_name = "birthrate")
-print(OECD_birth_rate_long.head())
-
-```
-
-```{python}
-
-#base graphic
-OECD_birth_rate_graphic = alt.Chart(OECD_birth_rate_long, height = 350).mark_line().properties(
-  title = "South Korea's Birth Rate is the Lowest Among OECD Countries.",
-  width = 500
-)
-
-
-line= OECD_birth_rate_graphic.encode (
-  x = alt.X('year:T', title = ''),
-  y = alt.Y('birthrate:Q', title = 'Birth Rate(per woman)'),
-  color = alt.Color("country:N", legend=None),
-  opacity=alt.condition(
-    (alt.datum.country == 'Korea') | (alt.datum.country == 'OECD - Average'),
-    alt.value(1),
-    alt.value(0.3)),
-strokeWidth=alt.condition(
-        (alt.datum.country == 'Korea') | (alt.datum.country == 'OECD - Average'),
-        alt.value(2),
-        alt.value(1)
-    ))
-
-label = OECD_birth_rate_graphic.mark_text(align='left', dx=4). encode(
-    x=alt.X('max(year):T', title = ""),
-    y=alt.Y('birthrate:Q').aggregate(argmax='year'),
-    text=alt.condition(
-        (alt.datum.country == 'Korea')| (alt.datum.country == 'OECD - Average') ,
-        'country',
-        alt.value('')
-    )
-)
-
-# Add text indicating the minimum birth rate
-min_birth_rate_text = alt.Chart(pd.DataFrame({'y': [2.1]})).mark_text(
-    text="Replacement level fertility requirment = 2.1 ",
-    align='right',
-    dx= +463 ,  # Adjust text position
-    dy= 0   # Adjust text position
-).encode(
-    y=alt.Y('y:Q')
-)
-
-min_birth_rate_line = alt.Chart(pd.DataFrame({'y': [2.1]}), ).mark_rule(color='red').encode(
-    y='y:Q'
-)
-combined_chart = alt.layer(line, label, min_birth_rate_text, min_birth_rate_line).configure_axisX(grid=False)
-combined_chart
-```
-
-#### Palette Usage for Part 4
-
-an encoding channel other than x or y : color, opacity, text, strokeWidth
-
-concatenation
-
-non-default configuration of a channel’s scale or guide : condition , align
-
-#### Choices Made for Part 4 Graphics:
-
-Title: The title "South Korea's Birth Rate is the Lowest Among OECD Countries" clearly conveys the main message of the graphic rather than just telling what the data represents.
-
-Color and Opacity: Different colors are used for each country to distinguish between them. South Korea and the OECD average are highlighted with higher opacity (opacity of 1) compared to other countries (opacity of 0.3). This draws attention to the main focus of the graphic while providing context with the OECD average.
-
-Stroke Width: South Korea and the OECD average lines are presented with thicker stroke widths (2) compared to other countries (1), making them more prominent and easier to distinguish, which aligns with the story of he Graphic.
-
-Text and Line Annotation: Text annotation is used to provide additional information about the replacement level fertility requirement (2.1). This annotation helps viewers understand the significance of the y-value at 2.1 and its implications. A horizontal red line is added at y = 2.1 to visually highlight the replacement level fertility requirement.
-
-
-Mention alternatives to your graphic that you considered but did not opt to submit:
-
-I considered adding another line to illustrate additional factors contributing to the decline of Korea's birth rate. However, I decided against it because incorporating such data, like house prices, would complicate the y-axis scale and potentially alter the narrative without conducting a thorough study or establishing correlations. While the idea seemed intriguing, I refrained from doing so to avoid confusing the reader and potentially providing misleading information.
-
-### Keep Learning
-
-#### a - new learned Altair feature
-
-Using condition in text mark :    
-
-text=alt.condition(
-        (alt.datum.country == 'Korea')| (alt.datum.country == 'OECD - Average') ,
-        'country',
-        alt.value('')
-    )
-    
-Removing x axis grid using .configure_axisX(grid=False)
-
-Adjusting x and y position for text mark using dx and dy.
-
-#### b
-[20.2]('https://clauswilke.com/dataviz/redundant-coding.html')
-"Whenever possible, design your figures so they don’t need a legend."
-
-Eliminating legends, when necessary, makes it immediately clear what each graphical element represents, even without an explicit legend. This strategy, known as direct labeling, involves placing text labels or visual elements strategically throughout the figure to guide the viewer.
-
-Following this advice, instead of including a color legend for the lines as initially done(which made the graphic messy), I removed the legend in part 4 graphic and added tick text next to the last value of the highlighted line to lessen the burden on the reader, reducing the need to locate and match the country.
-
-Grid lines that run perpendicular to the key variable of interest tend to be the most useful.
-
-[23.2]('https://clauswilke.com/dataviz/balance-data-context.html')
-"Grid lines that run perpendicular to the key variable of interest tend to be the most useful."
-
-Using this advice, I removed the x-grid in the Part 4 graphic since it wasn't enhancing the visualization and because the y-value is the key variable of interest.
-
-#### Reference
-
-Wilke, C. O. 2019. Fundamentals of Data Visualization: A Primer on Making Informative and Compelling Figures. O’Reilly Media. [https://clauswilke.com/dataviz/](https://clauswilke.com/dataviz/).
+[part 4 data](https://docs.google.com/spreadsheets/d/e/2PACX-1vRsLwJcXI7x7pbSMWdfI4yp8GYMhK74sHQJMO6sqAyCC2deMZBGDaqf9nyZ7AlXFDQvWi43f6_pxEig/pub?output=csv)
 

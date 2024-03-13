@@ -1,0 +1,79 @@
+---
+title: "DATA304 - Final Project Part 1"
+format: html
+editor: visual
+author: "David Kim"
+---
+# Part 1 - Homework 3 Revision
+```{python}
+#necessary imports
+import pandas as pd
+import altair as alt
+```
+
+```{python}
+#Data
+DNA_kits_url_wide = 'https://calvin-data304.netlify.app/data/twins-genetics-wide.csv'
+
+DNA_kit_wide = pd.read_csv(DNA_kits_url_wide)
+print(DNA_kit_wide.head())
+```
+
+#### Pair Comparison
+
+```{python}
+kit_compare = alt.Chart(DNA_kits_url_wide, width = 100, height = 200).mark_bar().encode(
+    x=alt.X("id:N", title = ''),
+    y=alt.Y("Ancestry:Q", title = 'Ancestry Share', axis=alt.Axis(format='%')),
+    color=alt.Color("region:N"),
+).facet( facet=alt.Facet("pair:N", title= "Pair Number")).properties(
+    title = "Comparing Ancestry Share Score Between Twins Using the 'Ancestry' Kit")
+
+kit_compare
+```
+
+#### Kit Copmparison
+
+```{python}
+
+kit_compare = [
+    alt.Chart(DNA_kit_wide, width = 200, height = 200).mark_point().encode(
+        x=alt.X(x_col + ':Q'),
+        y=alt.Y(y_col + ':Q'),
+        color='region:N',
+        tooltip=['twin', 'pair']
+    ).interactive()
+    for x_col, y_col in [('Ancestry', '23andMe'), ('23andMe', 'MyHeritage'), ('MyHeritage', 'Ancestry')]
+]
+
+alt.hconcat(*kit_compare).properties(
+    title = "Comparing Different DNA Kits Between 6 Twins")
+```
+
+#### Palette Usage for Part 1
+
+an encoding channel other than x or y : color
+
+facet : columns
+
+concatenation : hconcat
+
+non-default configuration of a channel’s scale or guide : width and height
+
+interaction : tooltip
+
+### The Story
+
+The graphics depict a comparison between DNA kits and twins based on their Ancestry scores. In the twin comparison graphics, twins share almost identical ancestry traits. In the kits comparison graphic, each kit was plotted with another kit in a scatter plot. Among the comparison, the graphic that compares '23andMe' and 'MyHeritage' shows a linear relationship, suggesting that the two kits yield similar results compared to the 'Ancestry' kit.
+
+### Graphic I liked from HW3 gallery
+
+Arron 7. Aaron Toth -comparing kits
+
+What I like about this approach is that it allows for a more nuanced understanding of the data compared to a simple bar chart. With a scatter plot, you can easily discern patterns and variations in the genetic ancestry results for each twin. Additionally, the non-linear arrangement of points can indicate differences between twins, highlighting individual genetic variations.
+
+### Graphic I didn't like from HW3 gallery
+
+10. Davis Addink - comparing twins
+
+While the purpose of the graphic is to compare the twins, there isn't much interpretability based on the same color of the twins and graph, as all kits are colored differently, not by region. Additionally, the bars seem to be stacked with the same color, and I wasn't able to discern their purpose.

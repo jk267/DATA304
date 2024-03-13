@@ -1,0 +1,206 @@
+---
+title: "hw7"
+author: "David Kim"
+format: html
+editor: visual
+---
+
+### Q1. Challenge: investigate:
+
+How our business compares to other businesses (over time and in February 2020) How the components of the net promoter score for our business have changed over time
+
+1.  In February 2020, our business was performing well, with only three other businesses boasting higher NPS scores. Also, comparing our business's promoter rating over time, we also had the highest number of promoter in February 2020.
+
+2.  Previously, in 2019, only competitor A showed a slightly negative trend(but it still remains the highest rank) whereas our company and competitor B,C and D showed no change or slight increase. After December 2019, our business consistently held the fourth position and demonstrated a slight positive change over time.
+
+While passive responses dominated initially, they decreased toward the end. Both detractor and promoter responses exhibited growth, with promoter responses becoming the highest among all over time.
+
+### Q2. Create a graphic that shows how many respondents there were in each country.
+
+Present the countries in an order that is more interesting than alphabetical. Were they roughly equal or were there notable difference among the countries?
+
+Canada notably had the most number of respondents, followed by the US and Great Britain. It seemed like English speaking countries in general has more respondents than non-English speaking countries
+
+```{python}
+import pandas as pd
+import altair as alt
+
+q2_url ="https://calvin-data304.netlify.app/data/wvs.csv"
+q2 = pd.read_csv(q2_url)
+q2_count = q2.groupby("country").size().reset_index(name='count')
+q2_count.head
+```
+
+```{python}
+# Graph for q2
+alt.Chart(q2_count).mark_bar().encode(
+  x = alt.X("count:Q", title = "respondents"),
+  y = alt.Y("country:N").sort("-x"),
+)
+```
+
+#### Q3
+
+There are three age-related variables: age, age3, and age6. The latter two put respondents into 3 and 6 age groups respectively. Create graphics that let you see what the age groupings are and check whether these are the same across all the countries.
+
+```{python}
+import altair as alt
+
+# Create a stacked bar chart for the 'age3' variable
+chart_age3 = alt.Chart(q2).mark_point(filled = True, size = 40).encode(
+    x=alt.X('age:Q', title='age'),
+    y=alt.Y('age3:N', title='age3', axis=alt.Axis(values=list(range(0, 100, 5)))),
+    color  = "country:N"
+).properties(
+    width=400,
+    height=300,
+    title='Distribution of Age Groups (age3)'
+)
+
+# Create a stacked bar chart for the 'age6' variable
+chart_age6 = alt.Chart(q2).mark_point(filled= True).encode(
+    x=alt.X('age:Q', title='Age'),
+    y=alt.Y('age6:N', title='Age6'),
+    color  = "country:N"
+).properties(
+    width=400,
+    height=300,
+    title='Distribution of Age Groups (age6)'
+)
+
+# Arrange the charts horizontally
+chart = alt.hconcat(chart_age3, chart_age6 )
+
+chart
+
+```
+
+As most of the colors are overlapped, we can see that the binning is similar across all the countries.
+
+### Q4
+
+```{python}
+import numpy as np
+alt.data_transformers.disable_max_rows()
+
+# Compute binary score
+q2['binary_score_10'] = (q2['democracy_importance'] == 10).astype(int)
+
+
+error_band = alt.Chart(q2).mark_errorband(extent = 'ci').encode(
+    x=alt.X('age6:N', title='Age Group', sort='-x'),
+    y=alt.Y('mean(binary_score_10):Q', title='Proportion of Score 10', scale=alt.Scale(domain=[0, 1])).axis(format='%')
+)
+
+line = alt.Chart(q2).mark_line(point = True).encode(
+    x=alt.X('age6:N', sort = '-x' ),
+    y=alt.Y('mean(binary_score_10):Q')
+)
+
+graph = error_band + line
+
+graph.facet(
+      column = "country:N"
+)
+```
+
+### Q5
+
+Recreate something like Figure 1.9. Use age6 or something derived from it.
+
+```{python}
+q2['score_10'] = q2['binary_score_10'] * 10
+error_band_q5 = alt.Chart(q2, width  = 100, height = 400).mark_errorband(extent = 'ci').encode(
+    x=alt.X('age6:N', title='Decade of Birth', sort='-x'),
+    y=alt.Y('mean(democracy_importance):Q', title='Average Importance of Democracy')
+)
+
+line_q5 = alt.Chart(q2).mark_line().encode(
+    x=alt.X('age6:N', title='Decade of Birth', sort = '-x'),
+    y=alt.Y('mean(democracy_importance):Q')
+)
+
+# Show the chart
+graph_q5 = error_band_q5 + line_q5
+
+graph_q5.facet(
+      column = "country:N"
+)
+
+```
+
+#### Q6
+
+What happens if you use age instead of age6? Try it and see? Is this better or worse? Why?
+
+```{python}
+
+error_band_q6 = alt.Chart(q2, width  = 100, height = 400).mark_errorband(extent = 'ci').encode(
+    x=alt.X('age:Q', title='age', sort='-x'),
+    y=alt.Y('mean(democracy_importance):Q', title='Average Importance of Democracy')
+)
+
+line_q6 = alt.Chart(q2).mark_line().encode(
+    x=alt.X('age:Q', sort = '-x'),
+    y=alt.Y('mean(democracy_importance):Q')
+)
+
+graph_q6 = error_band_q6 + line_q6
+
+graph_q6.facet(
+      column = "country:N"
+)
+```
+
+Using individual ages (age) leads to a cluttered and complex graph, making it hard, though possible, to discern trends. Also, interpreting individual ages can be challenging, as there are no natural groupings to help understanding. Lastly, using individual ages lacks meaningful aggregation, which can obscure important trends and insights.
+
+### Q7
+
+```{python}
+loess_chart = alt.Chart(q2, width=100, height=400).mark_point().encode(
+    x=alt.X('age:Q', title='age'),
+    y=alt.Y('democracy_importance:Q', title='Importance of Democracy'),
+)
+
+chart = loess_chart + loess_chart.transform_loess('age', 'democracy_importance').mark_line()
+
+chart.facet(
+  column = "country"
+)
+
+```
+
+Reflection: The line of the loess graph is similar to the binned age, but sice it's based on a scatter plot, the curves are smooth and does a better job in capturing the underlying trend.
+
+#### Q8.1
+
+```{python}
+
+regression_q8 = alt.Chart(q2, width=100, height=400).mark_point().encode(
+    x=alt.X('age:Q', title='age'),
+    y=alt.Y('democracy_importance:Q', title='Importance of Democracy'),
+)
+
+chart_q8 = regression_q8 + regression_q8.transform_regression('age', 'democracy_importance', method = 'linear').mark_line()
+
+chart_q8.facet(
+  column = "country"
+)
+
+```
+
+#### Q8.2
+
+```{python}
+polynomial_regression_chart = alt.Chart(q2, width=100, height=400).mark_point().encode(
+    x=alt.X('age:Q', title='Age'),
+    y=alt.Y('democracy_importance:Q', title='Importance of Democracy'),
+)
+
+polynomial_regression_trend = polynomial_regression_chart + polynomial_regression_chart.transform_regression('age', 'democracy_importance', method='poly', order=3).mark_line()
+
+polynomial_regression_trend.facet(
+    column="country"
+)
+
+```

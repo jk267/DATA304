@@ -1,0 +1,59 @@
+---
+title: "DATA304 - Final Project Part 2"
+format: html
+editor: visual
+author: "David Kim"
+---
+
+# Part 2 - Homework 7 Revision
+
+## Challenge #4: Price at the pump
+```{python}
+#necessary imports
+import pandas as pd
+import altair as alt
+```
+
+```{python}
+# data 
+Gapminder_url = 'https://calvin-data304.netlify.app/data/pump_price_for_gasoline_us_per_liter.csv'
+countries_regions_codes = 'https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv'
+
+# Load data
+Gapminder = pd.read_csv(Gapminder_url)
+ctry_rgn = pd.read_csv(countries_regions_codes)
+
+# Melting Gapminder data
+years = [str(year) for year in range(2000, 2017)]
+gapminder_melt = pd.melt(Gapminder, id_vars=['country'], value_vars=years, var_name='year')
+
+# Drop null values in 'value' column
+gapminder_melt = gapminder_melt.dropna(subset=['value'])
+
+```
+
+```{python}
+chart = alt.Chart(gapminder_melt).mark_line().encode(
+    x= alt.X('year:N' , axis=alt.Axis(labelAngle=0)),
+    y=alt.Y('mean(value):Q', title='Average Gas Prices in $ per Gallon'),
+    color='region:N'
+).transform_lookup(
+    lookup='country',
+    from_=alt.LookupData(data=ctry_rgn, key='name', fields=['region'])
+).properties(
+    title='Average Gasoline Price by Region 2000 - 2016',
+    width=400,
+    height=300
+)
+
+# Show the chart
+chart
+```
+
+#### Palette Usage for Part 2
+
+an encoding channel other than x or y : color
+
+non-default configuration of a channel’s scale or guide : width and height
+
+other : transform lookup
